@@ -88,7 +88,6 @@ The Admin Dashboard for Report Management is a web-based application that enable
 ### 4.1 Security
 - Role-based access control
 - Password encryption
-- CSRF protection
 - Session timeout after 30 minutes of inactivity
 
 ### 4.3 Usability
