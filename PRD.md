@@ -98,8 +98,7 @@ The Admin Dashboard for Report Management is a web-based application that enable
 ### 5.1 Technology Stack
 - Backend: Django (Python)
 - Frontend: HTML, CSS, JavaScript (Bootstrap/jQuery)
-- Database: PostgreSQL
-- Deployment: Docker
+- Database: SQLite
 
 ### 5.2 Dependencies
 - django-role-permissions for advanced RBAC
