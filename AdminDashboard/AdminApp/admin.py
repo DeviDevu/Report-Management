@@ -75,7 +75,35 @@ class ReportAdmin(admin.ModelAdmin):
     list_filter = ('status', 'creator')
     search_fields = ('title', 'description', 'creator__username')
     ordering = ('-submission_date',)
-    
+    #change_list_template = 'admin/AdminApp/report/change_list.html'
+
+
+    def changelist_view(self, request, extra_context=None):
+        extra_context = extra_context or {}
+        
+        # Get base queryset based on user role
+        if request.user.is_superuser:
+            qs = self.model.objects.all()
+        elif request.user.role == 'manager':
+            qs = self.model.objects.filter(creator__manager=request.user) | self.model.objects.filter(creator=request.user)
+        else:  # STAFF
+            qs = self.model.objects.filter(creator=request.user)
+            
+        # Calculate statistics
+        stats = {
+            'total_submitted': qs.filter(status='submitted').count(),
+            'total_approved': qs.filter(status='approved').count(),
+            'total_rejected': qs.filter(status='rejected').count(),
+        }
+        
+        # For managers, add staff count
+        if request.user.role == 'manager':
+            stats['total_staff'] = User.objects.filter(manager=request.user).count()
+            
+        extra_context['report_stats'] = stats
+        return super().changelist_view(request, extra_context=extra_context)
+
+
    # Allow managers and staff to view their own and assigned reports
     def get_queryset(self, request):
         qs = super().get_queryset(request)
@@ -135,6 +163,7 @@ class ReportAdmin(admin.ModelAdmin):
         if not obj.pk:
             obj.creator = request.user 
         super().save_model(request, obj, form, change)
+
     
     
 

@@ -1,0 +1,31 @@
+{% extends "admin/change_list.html" %}
+{% load static %}
+ 
+{% block content %}
+<div style="margin-bottom: 15px;">
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 150px)); gap: 10px; padding: 10px;">
+        <div style="background-color: #f8f9fa; padding: 10px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h3 style="margin: 0; color: #2f2d2d; font-size: 15px;">Submitted</h3>
+            <p style="font-size: 20px; margin: 3px 0; color: #015dc0;">{{ report_stats.total_submitted }}</p>
+        </div>
+        
+        <div style="background-color: #f8f9fa; padding: 10px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h3 style="margin: 0; color: #2f2d2d; font-size: 15px;">Approved</h3>
+            <p style="font-size: 20px; margin: 3px 0; color: #035e18;">{{ report_stats.total_approved }}</p>
+        </div>
+        
+        <div style="background-color: #f8f9fa; padding: 10px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h3 style="margin: 0; color: #2f2d2d; font-size: 15px;">Rejected</h3>
+            <p style="font-size: 20px; margin: 3px 0; color: #bd0e20;">{{ report_stats.total_rejected }}</p>
+        </div>
+        
+        {% if request.user.role == 'manager' %}
+        <div style="background-color: #cbfccf; padding: 10px; border-radius: 6px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);">
+            <h3 style="margin: 0; color: #2f2d2d; font-size: 15px;">Total Staff</h3>
+            <p style="font-size: 20px; margin: 3px 0; color: #87125b;">{{ report_stats.total_staff }}</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{{ block.super }}
+{% endblock %}
